@@ -75,6 +75,9 @@ namespace Microsoft.Exchange.WebServices.Data
         /// <summary>
         /// The EmailAddress represents a GroupMailbox
         /// </summary>
+        /// FJC: I removed this because we don't need GroupMailbox and
+        /// the RequiredServerVersion seems to not be adhered to when fetching appointments with attendees
+        /// I imagine the correct fix would be for the event fetching code to not ask for this?
         [RequiredServerVersion(ExchangeVersion.Exchange2015)]
         GroupMailbox,
     }
