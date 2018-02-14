@@ -393,12 +393,19 @@ namespace Microsoft.Exchange.WebServices.Data
         /// <param name="request">The request.</param>
         private void EmitRequest(IEwsHttpWebRequest request)
         {
-            using (Stream requestStream = this.GetWebRequestStream(request))
-            {
-                using (EwsServiceXmlWriter writer = new EwsServiceXmlWriter(this.Service, requestStream))
-                {
-                    this.WriteToXml(writer);
+            try {
+                using (Stream requestStream = this.GetWebRequestStream(request)) {
+                    using (EwsServiceXmlWriter writer = new EwsServiceXmlWriter(this.Service, requestStream)) {
+                        this.WriteToXml(writer);
+                    }
                 }
+            } catch (Exception e) {
+                //FJC: We found that if the Xml generation generated an exception, then the request would be left in a 
+                // non-usable state since the requestStream in the request wasn't fully closed?
+                // I'm not 100% sure I understand that part... but I found that calling .Abort on the request would force
+                // the request/connection to be reinitialized the next time it was used after a Xml exception.
+                request.Abort();
+                throw e;
             }
         }
 
