@@ -78,7 +78,11 @@ namespace Microsoft.Exchange.WebServices.Data
             string mailboxTypeString = reader.ReadAttributeValue(XmlAttributeNames.MailboxType);
             if (!string.IsNullOrEmpty(mailboxTypeString))
             {
-                this.EmailAddress.MailboxType = EwsUtilities.Parse<MailboxType>(mailboxTypeString);
+                try {
+                    this.EmailAddress.MailboxType = EwsUtilities.Parse<MailboxType>(mailboxTypeString);
+                } catch (System.Exception) {
+                    this.EmailAddress.MailboxType = MailboxType.Unknown;
+                }
             }
             else
             {

@@ -193,7 +193,11 @@ namespace Microsoft.Exchange.WebServices.Data
                         this.RoutingType = reader.ReadElementValue();
                         break;
                     case XmlElementNames.MailboxType:
-                        this.MailboxType = reader.ReadElementValue<MailboxType>();
+                        try {
+                            this.MailboxType = reader.ReadElementValue<MailboxType>();
+                        } catch (System.Exception) {
+                            this.MailboxType = Data.MailboxType.Unknown;
+                        }
                         break;
                     case XmlElementNames.ItemId:
                         this.Id = new ItemId();
