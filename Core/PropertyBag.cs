@@ -321,14 +321,15 @@ namespace Microsoft.Exchange.WebServices.Data
 
             set
             {
-                if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion)
-                {
-                    throw new ServiceVersionException(
-                        string.Format(
-                            Strings.PropertyIncompatibleWithRequestVersion,
-                            propertyDefinition.Name,
-                            propertyDefinition.Version));
-                }
+                // FJC: Removing to avoid crashing when syncing with Exchange servers that send back "Mentions".
+                //if (propertyDefinition.Version > this.Owner.Service.RequestedServerVersion)
+                //{
+                //    throw new ServiceVersionException(
+                //        string.Format(
+                //            Strings.PropertyIncompatibleWithRequestVersion,
+                //            propertyDefinition.Name,
+                //            propertyDefinition.Version));
+                //}
 
                 // If the property bag is not in the loading state, we need to verify whether
                 // the property can actually be set or updated.
